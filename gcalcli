@@ -294,6 +294,7 @@ class gcalcli:
                  military=False,
                  details=False,
                  agendaDesc=False,
+                 agendaLength=5,
                  ignoreStarted=False,
                  calWidth=10,
                  calMonday=False,
@@ -315,6 +316,7 @@ class gcalcli:
         self.access        = access
         self.military      = military
         self.details       = details
+        self.agendaLength  = agendaLength
         self.agendaDesc    = agendaDesc
         self.ignoreStarted = ignoreStarted
         self.calWidth      = calWidth
@@ -1265,6 +1267,16 @@ def GetTrueFalse(value):
     else: return True
 
 
+def GetInt(value):
+
+    try:
+        v = int(value)
+    except:
+        PrintErrMsg('Error: Invalid config file option value. Integer expected.\n')
+        sys.exit(1)
+    return v
+
+
 def GetColor(value, exitFlag):
 
     colors = { 'default'       : CLR_NRM(),
@@ -1354,6 +1366,7 @@ def BowChickaWowWow():
     calNames      = GetConfigMultiple(cfg, 'cal', None)
     military      = GetTrueFalse(GetConfig(cfg, '24hr', 'false'))
     details       = GetTrueFalse(GetConfig(cfg, 'details', 'false'))
+    agendaLength  = GetInt(GetConfig(cfg, 'agenda-length', 5))
     agendaDesc    = GetTrueFalse(GetConfig(cfg, 'agenda-description', 'false'))
     ignoreStarted = GetTrueFalse(GetConfig(cfg, 'ignore-started', 'false'))
     calWidth      = int(GetConfig(cfg, 'width', '10'))
@@ -1472,6 +1485,7 @@ def BowChickaWowWow():
                    military=military,
                    details=details,
                    agendaDesc=agendaDesc,
+                   agendaLength=agendaLength,
                    ignoreStarted=ignoreStarted,
                    calWidth=calWidth,
                    calMonday=calMonday,
